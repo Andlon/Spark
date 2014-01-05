@@ -1,3 +1,5 @@
+#pragma once
+
 #include <QQuickView>
 
 #include "navigation/navigationcontroller.h"

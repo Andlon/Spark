@@ -30,14 +30,17 @@ HEADERS += \
     src/navigation/navigation.h \
     src/navigation/navigationcontroller.h \
     src/navigation/windowsnavigationfilter.h \
-    src/utilities/pointers.h
+    src/utilities/pointers.h \
+    src/launcher.h \
+    src/launchcontroller.h
 
 SOURCES += \
     src/application.cpp \
     src/main.cpp \
     src/navigation/lircclient.cpp \
     src/navigation/navigation.cpp \
-    src/navigation/navigationcontroller.cpp
+    src/navigation/navigationcontroller.cpp \
+    src/launcher.cpp
 
 OTHER_FILES += \
     assets/interfaces/default/main.qml

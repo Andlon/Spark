@@ -1,7 +1,10 @@
 #pragma once
 
 #include <QObject>
+#include <QVector>
+#include "utilities/pointers.h"
 #include "launcher.h"
+#include "launchercollectionmodel.h"
 
 namespace Spark {
 
@@ -12,7 +15,11 @@ public:
 
     void initialize();
 
+    QObject * model() const;
+
 private:
+    ObjectScopedPointer<LauncherCollectionModel> m_launchers;
+    LauncherLoader m_loader;
 };
 
 }

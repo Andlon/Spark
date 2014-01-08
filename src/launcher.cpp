@@ -1,6 +1,7 @@
 #include "launcher.h"
 #include <QXmlStreamReader>
 #include <QDebug>
+#include <QTextStream>
 
 namespace Spark {
 
@@ -14,32 +15,53 @@ void printWarningIfError(QXmlStreamReader &reader)
     }
 }
 
+QString makeAbsolutePath(const QString & path, const QDir & relativeTo)
+{
+    if (QDir::isAbsolutePath(path))
+        return QDir::cleanPath(path);
+    else
+        return relativeTo.absoluteFilePath(path);
 }
 
-void LauncherLoader::loadTemplate(const QByteArray &xml)
+void makePathsAbsolute(Launcher & launcher, const QDir & relativeTo)
+{
+    launcher.setLogoPath(makeAbsolutePath(launcher.logoPath(), relativeTo));
+
+    QStringList screenshots;
+    for (const QString & path : launcher.screenshotPaths())
+        screenshots << makeAbsolutePath(path, relativeTo);
+    launcher.setScreenshotPaths(screenshots);
+}
+
+}
+
+void LauncherLoader::loadTemplate(const QByteArray &xml, const QString &relativeToPath)
 {
     QXmlStreamReader reader(xml);
+    QDir relativeTo(relativeToPath);
 
-    while (reader.readNextStartElement())
+    if (reader.readNextStartElement())
     {
         if (reader.name() == "template")
-            readTemplateElement(reader);
+            readTemplateElement(reader, relativeTo);
         else
         {
             qWarning() << "Skipping unknown XML element " << reader.name();
             reader.skipCurrentElement();
         }
     }
-
-    printWarningIfError(reader);
+    else
+    {
+        printWarningIfError(reader);
+    }
 }
 
-QVector<Launcher> LauncherLoader::loadLaunchers(const QByteArray &xml) const
+QVector<Launcher> LauncherLoader::loadLaunchers(const QByteArray &xml, const QString &relativeToPath) const
 {
     QXmlStreamReader reader(xml);
     QVector<Launcher> launchers;
 
-    while (reader.readNextStartElement())
+    if (reader.readNextStartElement())
     {
         if (reader.name() == "launchers")
             launchers += readLaunchers(reader);
@@ -49,12 +71,19 @@ QVector<Launcher> LauncherLoader::loadLaunchers(const QByteArray &xml) const
             reader.skipCurrentElement();
         }
     }
+    else
+    {
+        printWarningIfError(reader);
+    }
 
-    printWarningIfError(reader);
+    QDir relativeTo(relativeToPath);
+    for (Launcher & launcher : launchers)
+        makePathsAbsolute(launcher, relativeTo);
+
     return launchers;
 }
 
-void LauncherLoader::readTemplateElement(QXmlStreamReader &reader)
+void LauncherLoader::readTemplateElement(QXmlStreamReader &reader, const QDir &relativeTo)
 {
     const QString templateName = reader.attributes().value("name").toString();
     Launcher launcher;
@@ -62,6 +91,7 @@ void LauncherLoader::readTemplateElement(QXmlStreamReader &reader)
     if (!templateName.isEmpty())
     {
         readLauncherParameters(reader, launcher);
+        makePathsAbsolute(launcher, relativeTo);
         m_templates[templateName] = launcher;
     }
     else
@@ -72,7 +102,7 @@ void LauncherLoader::readTemplateElement(QXmlStreamReader &reader)
 
 void LauncherLoader::readLauncherParameters(QXmlStreamReader &reader, Launcher & launcher) const
 {
-    QStringList screenshots;
+    QStringList screenshots = launcher.screenshotPaths();
 
     while (reader.readNextStartElement())
     {
@@ -136,6 +166,17 @@ QDataStream & operator <<(QDataStream &stream, const Launcher &launcher)
     stream << "Screenshots: " << launcher.screenshotPaths();
 
     return stream;
+}
+
+QDebug operator <<(QDebug d, const Launcher &launcher)
+{
+    d << "Title: " << launcher.title();
+    d << "Description: " << launcher.description();
+    d << "Logo: " << launcher.logoPath();
+    d << "Exec: " << launcher.execPath();
+    d << "Screenshots: " << launcher.screenshotPaths();
+
+    return d;
 }
 
 }

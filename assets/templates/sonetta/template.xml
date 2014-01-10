@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<template name="sonetta">
+	<title>Sonetta</title>
+	<description>Sonetta brings the Spotify experience to the living room. With an interface designed from the ground up to allow quick and fluid navigation with an ordinary remote control,
+	Sonetta aims to make enjoying music from the couch a more pleasant experience.</description>
+	<exec>sonetta</exec>
+</template>

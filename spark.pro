@@ -46,4 +46,6 @@ SOURCES += \
     src/launchercollectionmodel.cpp
 
 OTHER_FILES += \
-    assets/interfaces/default/main.qml
+    assets/interfaces/default/main.qml \
+    assets/interfaces/default/LauncherView.qml \
+    assets/interfaces/default/Pattern.qml

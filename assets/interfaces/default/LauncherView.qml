@@ -25,7 +25,7 @@ ListView {
         height: view.height
         width: view.delegateWidth
 
-        property var internalModel: model
+        property int launcherId: model.id
 
         Rectangle {
             anchors.fill: delegateRoot
@@ -66,5 +66,6 @@ ListView {
     Keys.forwardTo: Nav {
         onRight: view.incrementCurrentIndex()
         onLeft: view.decrementCurrentIndex()
+        onOk: if (view.currentItem) console.log(spark.launch(view.currentItem.launcherId))
     }
 }

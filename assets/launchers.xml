@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launchers>
-	<launcher template="xbmc" />
+	<launcher template="xbmc">
+		<exec>D:\Applications\XBMC\XBMC.exe</exec>
+	</launcher>
 	<launcher template="sonetta" />
 	<!--<launcher template="xbmc" />-->
 </launchers>

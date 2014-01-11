@@ -32,9 +32,11 @@ QStringList findTemplateDirectories(const QString & rootSearchDirectory)
 }
 
 LaunchController::LaunchController(QObject *parent)
-    :   QObject(parent), m_launchers(new LauncherCollectionModel)
+    :   QObject(parent),
+      m_process(new QProcess),
+      m_launchers(new LauncherCollectionModel)
 {
-
+    connect(m_process.data(), &QProcess::stateChanged, this, &LaunchController::stateChanged);
 }
 
 void LaunchController::initialize()
@@ -60,13 +62,45 @@ void LaunchController::initialize()
     if (launchersXml.open(QIODevice::ReadOnly))
     {
         const QByteArray data = launchersXml.readAll();
-        m_launchers->setLaunchers(m_loader.loadLaunchers(data, applicationDir));
+        QVector<Launcher> launchers = m_loader.loadLaunchers(data, applicationDir);
+
+        // Assign unique IDs to the launchers
+        for (int i = 0; i < launchers.count(); ++i)
+            launchers[i].setId(i);
+
+        m_launchers->setLaunchers(launchers);
     }
+}
+
+QProcess::ProcessState LaunchController::state() const
+{
+    return m_process->state();
 }
 
 QObject * LaunchController::model() const
 {
     return m_launchers.data();
+}
+
+bool LaunchController::launch(int index)
+{
+    if (m_process->state() != QProcess::NotRunning)
+        return false;
+
+    const QVector<Launcher> launchers = m_launchers->launchers();
+    if (index < 0 || index >= m_launchers->launchers().count())
+        return false;
+
+    const Launcher & launcher = launchers[index];
+    m_process->start(launcher.execPath());
+
+    if (m_process->state() == QProcess::NotRunning)
+    {
+        // If state is NotRunning immediately after launching, it means something failed
+        return false;
+    }
+
+    return true;
 }
 
 

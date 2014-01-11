@@ -9,7 +9,7 @@ Application::Application(QObject *parent)
       m_launchController(new LaunchController(this)),
       m_view(new QQuickView)
 {
-
+    connect(m_launchController.data(), &LaunchController::stateChanged, this, &Application::processStateChanged);
 }
 
 
@@ -48,6 +48,16 @@ void Application::showUserInterface()
 QObject * Application::launchers() const
 {
     return m_launchController->model();
+}
+
+QProcess::ProcessState Application::processState() const
+{
+    return m_launchController->state();
+}
+
+bool Application::launch(int index)
+{
+    return m_launchController->launch(index);
 }
 
 }

@@ -16,6 +16,7 @@ class Application : public QObject {
     Q_OBJECT
 
     Q_PROPERTY(QObject * launchers READ launchers CONSTANT)
+    Q_PROPERTY(QProcess::ProcessState processState READ processState NOTIFY processStateChanged)
 public:
     explicit Application(QObject * parent = 0);
 
@@ -23,6 +24,14 @@ public:
     void showUserInterface();
 
     QObject * launchers() const;
+
+    QProcess::ProcessState processState() const;
+
+public slots:
+    bool launch(int index);
+
+signals:
+    void processStateChanged();
 
 private:
     void registerQmlTypes();

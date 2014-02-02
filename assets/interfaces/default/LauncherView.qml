@@ -36,32 +36,78 @@ ListView {
             border.width: 1
             border.color: "#292929"
         }
-        Text {
-            id: title
-            anchors.fill: parent
-            anchors.margins: 20
+
+        Column {
+            anchors {
+                left: parent.left
+                right: parent.right
+                verticalCenter: parent.verticalCenter
+            }
             clip: true
 
-            text: model.title
-            font: {
-                var fontProperties = {}
-                fontProperties.family = robotoThin.name
-                fontProperties.weight = Font.Light
-                fontProperties.pointSize = 40
+            height: childrenRect.height
 
-                return Qt.font(fontProperties)
-            }
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            color: parent.ListView.isCurrentItem ? "#151515" : "#ffffff"
+            Text {
+                id: title
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: 20
+                }
 
-            Behavior on color {
-                ColorAnimation {
-                    duration: 250
-                    easing.type: Easing.InOutQuad
+                clip: true
+
+                text: model.title
+                font: {
+                    var fontProperties = {}
+                    fontProperties.family = robotoThin.name
+                    fontProperties.weight = Font.Light
+                    fontProperties.pointSize = 40
+
+                    return Qt.font(fontProperties)
+                }
+
+                horizontalAlignment: Text.AlignHCenter
+                color: parent.parent.ListView.isCurrentItem ? "#151515" : "#ffffff"
+
+                Behavior on color {
+                    ColorAnimation {
+                        duration: 250
+                        easing.type: Easing.InOutQuad
+                    }
                 }
             }
+
+            Text {
+                id: usage
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+
+                text: model.usage
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                fontSizeMode: Text.Fit
+
+                font.family: "Roboto"
+                font.weight: Font.Light
+                font.pointSize: 18
+
+                color: parent.parent.ListView.isCurrentItem ? "#353535" : "#999999"
+
+                Behavior on color {
+                    ColorAnimation {
+                        duration: 250
+                        easing.type: Easing.InOutQuad
+                    }
+                }
+            }
+
+
         }
+
+
     }
 
     FontLoader {

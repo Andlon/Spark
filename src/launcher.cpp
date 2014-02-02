@@ -117,6 +117,8 @@ void LauncherLoader::readLauncherParameters(QXmlStreamReader &reader, Launcher &
             launcher.setLogoPath(text);
         else if (element == "exec")
             launcher.setExecPath(text);
+        else if (element == "usage")
+            launcher.setUsage(text);
         else if (element == "screenshot")
             screenshots.append(text);
         else

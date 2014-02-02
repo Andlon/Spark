@@ -15,6 +15,7 @@ public:
         DescriptionRole,
         LogoRole,
         ExecRole,
+        UsageRole,
         ScreenshotsRole
     };
 

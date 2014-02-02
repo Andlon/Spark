@@ -96,7 +96,16 @@ FocusScope {
             bottomMargin: root.height * 0.03
         }
 
-        x : view.x + view.currentIndex * view.delegateWidth
+        x: {
+            var pos = 0
+            if (view.currentIndex == view.count - 1)
+                pos = view.width - view.delegateWidth
+            else if (view.currentIndex != 0)
+                pos = view.delegateWidth
+
+            return view.x + pos
+        }
+
         width: view.delegateWidth
 
         Behavior on x {

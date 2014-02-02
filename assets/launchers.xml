@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launchers>
 	<launcher template="xbmc">
+		<usage>Movies, TV Shows</usage>
 		<exec>D:\Applications\XBMC\XBMC.exe</exec>
 	</launcher>
-	<launcher template="sonetta" />
-	<!--<launcher template="xbmc" />-->
+	<launcher template="sonetta">
+		<usage>Music</usage>
+	</launcher>
+	
+	<!--<launcher template="xbmc">
+		<usage>YouTube &amp; Shit</usage>
+	</launcher>
+	<launcher template="xbmc">
+		<usage>Sumthin</usage>
+		<exec>D:\Applications\XBMC\XBMC.exe</exec>
+	</launcher>
+	<launcher template="sonetta">
+		<usage>Spotify</usage>
+	</launcher>
+	<launcher template="xbmc">
+		<usage>Media Center</usage>
+	</launcher>-->
 </launchers>

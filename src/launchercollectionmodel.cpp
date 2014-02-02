@@ -28,6 +28,8 @@ QVariant LauncherCollectionModel::data(const QModelIndex &index, int role) const
         return launcher.logoPath();
     case ExecRole:
         return launcher.execPath();
+    case UsageRole:
+        return launcher.usage();
     case ScreenshotsRole:
         return launcher.screenshotPaths();
 
@@ -51,6 +53,7 @@ QHash<int, QByteArray> LauncherCollectionModel::roleNames() const
         names.insert(DescriptionRole, "description");
         names.insert(LogoRole, "logo");
         names.insert(ExecRole, "exec");
+        names.insert(UsageRole, "usage");
         names.insert(ScreenshotsRole, "screenshots");
     }
 

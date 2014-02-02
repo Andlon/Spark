@@ -21,6 +21,7 @@ public:
     QString     description() const { return m_description; }
     QString     logoPath() const { return m_logoPath; }
     QString     execPath() const { return m_execPath; }
+    QString     usage() const { return m_usage; }
     QStringList screenshotPaths() const { return m_screenshotPaths; }
 
     void setId(int id) { m_id = id; }
@@ -28,6 +29,7 @@ public:
     void setDescription(const QString & description) { m_description = description; }
     void setLogoPath(const QString & logoPath) { m_logoPath = logoPath; }
     void setExecPath(const QString & execPath) { m_execPath = execPath; }
+    void setUsage(const QString & usage) { m_usage = usage; }
     void setScreenshotPaths(const QStringList & paths) { m_screenshotPaths = paths; }
 
 private:
@@ -36,6 +38,7 @@ private:
     QString     m_description;
     QString     m_logoPath;
     QString     m_execPath;
+    QString     m_usage;
     QStringList m_screenshotPaths;
 };
 

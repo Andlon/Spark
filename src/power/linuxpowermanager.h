@@ -1,11 +1,11 @@
 #pragma once
 
-#ifdef Q_OS_LINUX
+#include "powermanager.h"
+
+#if (defined(Q_OS_LINUX) || defined(Q_OS_UNIX))
 
 #include <QString>
 #include <QtDBus>
-
-#include "powermanager.h"
 
 class LinuxPowerManager : public PowerManager
 {

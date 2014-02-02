@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QQuickView>
+#include <QTimer>
 
 #include "navigation/navigationcontroller.h"
 #include "utilities/pointers.h"
@@ -16,8 +17,16 @@ class Application : public QObject {
     Q_OBJECT
 
     Q_PROPERTY(QObject * launchers READ launchers CONSTANT)
-    Q_PROPERTY(QProcess::ProcessState processState READ processState NOTIFY processStateChanged)
+    Q_PROPERTY(ProcessState processState READ processState NOTIFY processStateChanged)
+
+    Q_ENUMS(ProcessState)
 public:
+    enum ProcessState {
+        NotRunning = QProcess::NotRunning,
+        Starting = QProcess::Starting,
+        Running = QProcess::Running
+    };
+
     explicit Application(QObject * parent = 0);
 
     void initialize();
@@ -25,7 +34,7 @@ public:
 
     QObject * launchers() const;
 
-    QProcess::ProcessState processState() const;
+    ProcessState processState() const;
 
 public slots:
     bool launch(int index);
@@ -33,13 +42,16 @@ public slots:
 signals:
     void processStateChanged();
 
+private slots:
+    void onStateChanged();
+
 private:
     void registerQmlTypes();
     void setupQuickEnvironment();
 
-    NavigationController                            m_navigation;
-    ObjectScopedPointer<LaunchController>           m_launchController;
-    ObjectScopedPointer<QQuickView>                 m_view;
+    NavigationController                  m_navigation;
+    ObjectScopedPointer<LaunchController> m_launchController;
+    ObjectScopedPointer<QQuickView>       m_view;
 };
 
 }

@@ -15,7 +15,8 @@ ListView {
     preferredHighlightBegin: view.width / 3
     preferredHighlightEnd: 2 * view.width / 3
     highlight: Rectangle {
-        color: "#e9c329"
+        //color: "#e9c329"
+        color: "#ffae00"
     }
 
     property int delegateWidth: view.width / 3
@@ -44,9 +45,9 @@ ListView {
             text: model.title
             font: {
                 var fontProperties = {}
-                fontProperties.family = "Roboto"
+                fontProperties.family = robotoThin.name
                 fontProperties.weight = Font.Light
-                fontProperties.pointSize = 35
+                fontProperties.pointSize = 40
 
                 return Qt.font(fontProperties)
             }
@@ -55,17 +56,22 @@ ListView {
             color: parent.ListView.isCurrentItem ? "#151515" : "#ffffff"
 
             Behavior on color {
-                SmoothedAnimation {
+                ColorAnimation {
                     duration: 250
-                    velocity: -1
+                    easing.type: Easing.InOutQuad
                 }
             }
         }
     }
 
+    FontLoader {
+        id: robotoThin
+        source: "fonts/Roboto-Thin.ttf"
+    }
+
     Keys.forwardTo: Nav {
         onRight: view.incrementCurrentIndex()
         onLeft: view.decrementCurrentIndex()
-        onOk: if (view.currentItem) console.log(spark.launch(view.currentItem.launcherId))
+        onOk: if (view.currentItem) spark.launch(view.currentItem.launcherId)
     }
 }

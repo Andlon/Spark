@@ -10,8 +10,8 @@ Application::Application(QObject *parent)
       m_view(new QQuickView)
 {
     connect(m_launchController.data(), &LaunchController::stateChanged, this, &Application::processStateChanged);
+    connect(m_launchController.data(), &LaunchController::stateChanged, this, &Application::onStateChanged);
 }
-
 
 void Application::initialize()
 {
@@ -24,6 +24,7 @@ void Application::initialize()
 void Application::registerQmlTypes()
 {
     Navigation::registerTypes();
+    qmlRegisterUncreatableType<Application>("Spark", 0, 1, "Spark", "Can not instantiate Spark.");
 }
 
 void Application::setupQuickEnvironment()
@@ -50,14 +51,23 @@ QObject * Application::launchers() const
     return m_launchController->model();
 }
 
-QProcess::ProcessState Application::processState() const
+Application::ProcessState Application::processState() const
 {
-    return m_launchController->state();
+    return static_cast<ProcessState>(m_launchController->state());
 }
 
 bool Application::launch(int index)
 {
     return m_launchController->launch(index);
+}
+
+void Application::onStateChanged()
+{
+    if (processState() == QProcess::NotRunning)
+    {
+        m_view->raise();
+        m_view->requestActivate();
+    }
 }
 
 }

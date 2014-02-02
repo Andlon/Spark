@@ -5,6 +5,7 @@
 
 #include "navigation/navigationcontroller.h"
 #include "utilities/pointers.h"
+#include "power/powermanager.h"
 #include "launchcontroller.h"
 
 class QQuickView;
@@ -52,6 +53,7 @@ private:
     NavigationController                  m_navigation;
     ObjectScopedPointer<LaunchController> m_launchController;
     ObjectScopedPointer<QQuickView>       m_view;
+    ObjectScopedPointer<PowerManager>     m_power;
 };
 
 }

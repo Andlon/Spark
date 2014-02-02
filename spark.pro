@@ -8,6 +8,12 @@ unix:!mac {
     LIBS += -Wl,-rpath=\\\$$ORIGIN/libs
 }
 
+win32:LIBS += -luser32 -ladvapi32
+
+unix {
+QT += dbus network
+}
+
 RCC_DIR = "build/rcc"
 UI_DIR = "build/uic"
 MOC_DIR = "build/moc"
@@ -33,7 +39,11 @@ HEADERS += \
     src/utilities/pointers.h \
     src/launcher.h \
     src/launchcontroller.h \
-    src/launchercollectionmodel.h
+    src/launchercollectionmodel.h \
+    src/power/linuxpowermanager.h \
+    src/power/power.h \
+    src/power/powermanager.h \
+    src/power/windowspowermanager.h
 
 SOURCES += \
     src/application.cpp \
@@ -43,7 +53,9 @@ SOURCES += \
     src/navigation/navigationcontroller.cpp \
     src/launcher.cpp \
     src/launchcontroller.cpp \
-    src/launchercollectionmodel.cpp
+    src/launchercollectionmodel.cpp \
+    src/power/linuxpowermanager.cpp \
+    src/power/windowspowermanager.cpp
 
 OTHER_FILES += \
     assets/interfaces/default/main.qml \

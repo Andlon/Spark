@@ -1,4 +1,5 @@
 #include "application.h"
+#include "power/power.h"
 #include <QCoreApplication>
 #include <QtQuick>
 
@@ -7,7 +8,8 @@ namespace Spark {
 Application::Application(QObject *parent)
     :   QObject(parent),
       m_launchController(new LaunchController(this)),
-      m_view(new QQuickView)
+      m_view(new QQuickView),
+      m_power(powerFactory(this))
 {
     connect(m_launchController.data(), &LaunchController::stateChanged, this, &Application::processStateChanged);
     connect(m_launchController.data(), &LaunchController::stateChanged, this, &Application::onStateChanged);
@@ -36,6 +38,7 @@ void Application::setupQuickEnvironment()
     m_view->engine()->addPluginPath(applicationDir + QStringLiteral("/plugins"));
     m_view->engine()->addImportPath(applicationDir + QStringLiteral("/modules/"));
     m_view->engine()->rootContext()->setContextProperty("spark", QVariant::fromValue(this));
+    m_view->engine()->rootContext()->setContextProperty("power", QVariant::fromValue(m_power.data()));
 
     m_view->setSource(QUrl::fromLocalFile(applicationDir + "/interfaces/default/main.qml"));
     m_view->setResizeMode(QQuickView::SizeRootObjectToView);

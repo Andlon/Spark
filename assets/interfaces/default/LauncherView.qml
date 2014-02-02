@@ -92,7 +92,7 @@ ListView {
 
                 font.family: "Roboto"
                 font.weight: Font.Light
-                font.pointSize: 18
+                font.pointSize: 20
 
                 color: parent.parent.ListView.isCurrentItem ? "#353535" : "#999999"
 
@@ -103,11 +103,7 @@ ListView {
                     }
                 }
             }
-
-
         }
-
-
     }
 
     FontLoader {

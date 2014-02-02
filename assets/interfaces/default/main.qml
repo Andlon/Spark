@@ -8,17 +8,21 @@ FocusScope {
     states: [
         State {
             when: spark.processState === Spark.NotRunning
-            AnchorChanges { target: viewContainer; anchors.top: undefined; anchors.bottom: microcopy.top }
-            AnchorChanges { target: microcopy; anchors.bottom: root.bottom; anchors.top: undefined }
+            AnchorChanges { target: viewContainer; anchors.bottom: microcopy.top; anchors.top: undefined }
+            AnchorChanges { target: microcopy; anchors.bottom: powerContainer.top; anchors.top: undefined }
+            AnchorChanges { target: powerContainer; anchors.bottom: root.bottom; anchors.top: undefined }
             PropertyChanges { target: viewContainer; opacity: 1 }
             PropertyChanges { target: microcopy; opacity: 1 }
+            PropertyChanges { target: powerContainer; opacity: 1 }
         },
         State {
             when: spark.processState !== Spark.NotRunning
             AnchorChanges { target: viewContainer; anchors.top: root.bottom; anchors.bottom: undefined }
             AnchorChanges { target: microcopy; anchors.top: viewContainer.bottom; anchors.bottom: undefined }
+            AnchorChanges { target: powerContainer; anchors.top: microcopy.bottom; anchors.bottom: undefined }
             PropertyChanges { target: viewContainer; opacity: 0 }
             PropertyChanges { target: microcopy; opacity: 0 }
+            PropertyChanges { target: powerContainer; opacity: 0 }
         }
     ]
 
@@ -86,14 +90,16 @@ FocusScope {
                 currentIndex = 0
                 positionViewAtBeginning()
             }
+
+            KeyNavigation.down: powerMenu
         }
     }
 
     LauncherMicrocopy {
         id: microcopy
         anchors {
-            bottom: root.bottom
-            bottomMargin: root.height * 0.03
+            bottom: powerContainer.top
+            bottomMargin: microcopy.height
         }
 
         x: {
@@ -114,5 +120,26 @@ FocusScope {
                 velocity: -1
             }
         }
+    }
+
+    Pattern {
+        id: powerContainer
+        pattern: "dark"
+        height: microcopy.height
+        border.color: "#292929"
+        border.width: 1
+
+        anchors {
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+        }
+
+        PowerMenu {
+            id: powerMenu
+            anchors.fill: parent
+        }
+
+        KeyNavigation.up: view
     }
 }

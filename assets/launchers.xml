@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launchers>
 	<launcher template="xbmc">
-		<usage>Movies, TV Shows</usage>
+		<usage>Movies, TV</usage>
 		<exec>D:\Applications\XBMC\XBMC.exe</exec>
 	</launcher>
 	<launcher template="sonetta">

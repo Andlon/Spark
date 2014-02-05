@@ -12,6 +12,8 @@ Application::Application(QObject *parent)
       m_view(new QQuickView),
       m_power(powerFactory(this))
 {
+    QGuiApplication::addLibraryPath(QCoreApplication::applicationDirPath() + QStringLiteral("/plugins"));
+
     connect(m_launchController.data(), &LaunchController::stateChanged, this, &Application::processStateChanged);
     connect(m_launchController.data(), &LaunchController::stateChanged, this, &Application::onStateChanged);
 

@@ -43,7 +43,8 @@ HEADERS += \
     src/power/linuxpowermanager.h \
     src/power/power.h \
     src/power/powermanager.h \
-    src/power/windowspowermanager.h
+    src/power/windowspowermanager.h \
+    src/configuration.h
 
 SOURCES += \
     src/application.cpp \
@@ -55,7 +56,8 @@ SOURCES += \
     src/launchcontroller.cpp \
     src/launchercollectionmodel.cpp \
     src/power/linuxpowermanager.cpp \
-    src/power/windowspowermanager.cpp
+    src/power/windowspowermanager.cpp \
+    src/configuration.cpp
 
 OTHER_FILES += \
     assets/interfaces/default/main.qml \

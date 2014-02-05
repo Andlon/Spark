@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spark>
+	<launchers>
+		<launcher template="xbmc">
+			<usage>Movies, TV</usage>
+			<exec>D:\Applications\XBMC\XBMC.exe</exec>
+		</launcher>
+		<launcher template="sonetta">
+			<usage>Music</usage>
+		</launcher>s
+	</launchers>
+	<allowshutdown>true</allowshutdown>
+	<allowexit>true</allowexit>
+	<allowrestart>true</allowrestart>
+</spark>

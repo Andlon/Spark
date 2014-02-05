@@ -7,6 +7,7 @@
 #include "utilities/pointers.h"
 #include "power/powermanager.h"
 #include "launchcontroller.h"
+#include "configuration.h"
 
 class QQuickView;
 
@@ -20,6 +21,10 @@ class Application : public QObject {
     Q_PROPERTY(QObject * launchers READ launchers CONSTANT)
     Q_PROPERTY(ProcessState processState READ processState NOTIFY processStateChanged)
 
+    Q_PROPERTY(bool allowExit READ allowExit CONSTANT)
+    Q_PROPERTY(bool allowShutdown READ allowShutdown CONSTANT)
+    Q_PROPERTY(bool allowRestart READ allowRestart CONSTANT)
+
     Q_ENUMS(ProcessState)
 public:
     enum ProcessState {
@@ -29,6 +34,10 @@ public:
     };
 
     explicit Application(QObject * parent = 0);
+
+    bool allowExit() const;
+    bool allowShutdown() const;
+    bool allowRestart() const;
 
     void initialize();
     void showUserInterface();
@@ -47,6 +56,7 @@ private slots:
     void onStateChanged();
 
 private:
+    void parseConfiguration();
     void registerQmlTypes();
     void setupQuickEnvironment();
 
@@ -54,6 +64,7 @@ private:
     ObjectScopedPointer<LaunchController> m_launchController;
     ObjectScopedPointer<QQuickView>       m_view;
     ObjectScopedPointer<PowerManager>     m_power;
+    Configuration                         m_config;
 };
 
 }

@@ -11,7 +11,7 @@ namespace Spark {
 namespace {
 
 const QString TEMPLATE_FILENAME = QStringLiteral("template.xml");
-const QString LAUNCHERS_FILENAME = QStringLiteral("launchers.xml");
+const QString LAUNCHERS_FILENAME = QStringLiteral("spark.xml");
 const QString TEMPLATE_DIRECTORY = QStringLiteral("/templates");
 
 QStringList findTemplateDirectories(const QString & rootSearchDirectory)

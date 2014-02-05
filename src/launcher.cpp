@@ -61,19 +61,10 @@ QVector<Launcher> LauncherLoader::loadLaunchers(const QByteArray &xml, const QSt
     QXmlStreamReader reader(xml);
     QVector<Launcher> launchers;
 
-    if (reader.readNextStartElement())
+    while (reader.readNextStartElement())
     {
         if (reader.name() == "launchers")
             launchers += readLaunchers(reader);
-        else
-        {
-            qWarning() << "Skipping unknown XML element " << reader.name();
-            reader.skipCurrentElement();
-        }
-    }
-    else
-    {
-        printWarningIfError(reader);
     }
 
     QDir relativeTo(relativeToPath);

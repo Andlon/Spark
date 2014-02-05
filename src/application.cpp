@@ -2,6 +2,7 @@
 #include "power/power.h"
 #include <QCoreApplication>
 #include <QtQuick>
+#include <QFile>
 
 namespace Spark {
 
@@ -15,8 +16,24 @@ Application::Application(QObject *parent)
     connect(m_launchController.data(), &LaunchController::stateChanged, this, &Application::onStateChanged);
 }
 
+bool Application::allowExit() const
+{
+    return m_config.allowExit();
+}
+
+bool Application::allowShutdown() const
+{
+    return m_config.allowShutdown();
+}
+
+bool Application::allowRestart() const
+{
+    return m_config.allowRestart();
+}
+
 void Application::initialize()
 {
+    parseConfiguration();
     m_navigation.initialize();
     registerQmlTypes();
     setupQuickEnvironment();
@@ -70,6 +87,23 @@ void Application::onStateChanged()
     {
         m_view->raise();
         m_view->requestActivate();
+    }
+}
+
+void Application::parseConfiguration()
+{
+    const QString applicationDir = QCoreApplication::applicationDirPath();
+    const QString configFile = applicationDir + "/spark.xml";
+
+    QFile file(configFile);
+    if (file.open(QIODevice::ReadOnly))
+    {
+        m_config.parse(file.readAll());
+        file.close();
+    }
+    else
+    {
+        qFatal("Failed to read configuration file. See the README for how to set up a valid configuration file.");
     }
 }
 

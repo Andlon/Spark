@@ -6,13 +6,10 @@ unix:QMAKE_POST_LINK += sh deploy.sh
 
 unix:!mac {
     LIBS += -Wl,-rpath=\\\$$ORIGIN/libs
+    QT += dbus network
 }
 
 win32:LIBS += -luser32 -ladvapi32
-
-unix {
-QT += dbus network
-}
 
 RCC_DIR = "build/rcc"
 UI_DIR = "build/uic"

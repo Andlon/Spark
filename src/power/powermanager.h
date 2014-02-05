@@ -1,5 +1,4 @@
-#ifndef POWERMANAGER_H
-#define POWERMANAGER_H
+#pragma once
 
 #include <QObject>
 #include <QtGlobal>
@@ -21,15 +20,4 @@ signals:
 public slots:
     virtual void shutdown() { }
     virtual void reboot() { }
-
-protected:
-
-
-private:
-
-
 };
-
-
-
-#endif // POWERMANAGER_H

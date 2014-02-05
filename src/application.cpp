@@ -83,7 +83,7 @@ bool Application::launch(int index)
 
 void Application::onStateChanged()
 {
-    if (processState() == QProcess::NotRunning)
+    if (processState() == Application::NotRunning)
     {
         m_view->raise();
         m_view->requestActivate();

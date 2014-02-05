@@ -71,8 +71,6 @@ void Configuration::processSparkElement(QXmlStreamReader &reader)
         {
             if (element != "launchers")
                 qWarning() << "Unknown configuration element " << element << " ignored.";
-
-            reader.skipCurrentElement();
         }
     }
 }

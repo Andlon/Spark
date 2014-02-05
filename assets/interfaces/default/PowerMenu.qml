@@ -4,9 +4,10 @@ import Navigation 0.1
 FocusScope {
     id: root
 
-    onActiveFocusChanged: if (activeFocus) shutdown.focus = true
+    onActiveFocusChanged: if (activeFocus) updateFocus()
 
     property int selectionWidth: Math.max(exit.implicitWidth, shutdown.implicitWidth, restart.implicitWidth)
+    property bool powerOptionsAvailable: spark.allowExit || shutdownAvailable() || restartAvailable()
 
     Row {
         anchors.centerIn: parent
@@ -17,6 +18,7 @@ FocusScope {
             id: exit
             text: "Exit"
             width: root.selectionWidth
+            visible: spark.allowExit
 
             font.family: "Roboto"
             font.weight: Font.Light
@@ -32,6 +34,7 @@ FocusScope {
         Rectangle {
             width: 1
             color: "#999999"
+            visible: (spark.allowExit && shutdownAvailable()) || (spark.allowExit && restartAvailable())
             anchors {
                 top: exit.top
                 bottom: exit.bottom
@@ -42,6 +45,7 @@ FocusScope {
             id: shutdown
             text: "Shutdown"
             width: root.selectionWidth
+            visible: shutdownAvailable()
 
             font.family: "Roboto"
             font.weight: Font.Light
@@ -57,6 +61,7 @@ FocusScope {
         Rectangle {
             width: 1
             color: "#999999"
+            visible: restartAvailable() && shutdownAvailable()
             anchors {
                 top: exit.top
                 bottom: exit.bottom
@@ -67,6 +72,7 @@ FocusScope {
             id: restart
             text: "Restart"
             width: root.selectionWidth
+            visible: restartAvailable()
 
             font.family: "Roboto"
             font.weight: Font.Light
@@ -78,5 +84,28 @@ FocusScope {
 
             Keys.forwardTo: Nav { onOk: power.reboot() }
         }
+    }
+
+    function shutdownAvailable()
+    {
+        return spark.allowShutdown && power.canShutdown
+    }
+
+    function restartAvailable()
+    {
+        return spark.allowRestart && power.canReboot
+    }
+
+    function updateFocus()
+    {
+        // Prioritized list of focus candidates, depending on availability
+        if (shutdownAvailable())
+            shutdown.focus = true
+        else if (restartAvailable())
+            restart.focus = true
+        else if (spark.allowExit)
+            exit.focus = true
+        else
+            root.focus = true
     }
 }

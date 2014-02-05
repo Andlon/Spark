@@ -17,6 +17,7 @@ ListView {
     highlight: Rectangle {
         //color: "#e9c329"
         color: "#ffae00"
+        visible: view.activeFocus
     }
 
     property int delegateWidth: view.width / 3
@@ -68,7 +69,7 @@ ListView {
                 }
 
                 horizontalAlignment: Text.AlignHCenter
-                color: parent.parent.ListView.isCurrentItem ? "#151515" : "#ffffff"
+                color: view.activeFocus && delegateRoot.ListView.isCurrentItem ? "#151515" : "#ffffff"
 
                 Behavior on color {
                     ColorAnimation {
@@ -94,7 +95,7 @@ ListView {
                 font.weight: Font.Light
                 font.pointSize: 20
 
-                color: parent.parent.ListView.isCurrentItem ? "#353535" : "#999999"
+                color: view.activeFocus && delegateRoot.ListView.isCurrentItem ? "#353535" : "#999999"
 
                 Behavior on color {
                     ColorAnimation {

@@ -125,9 +125,10 @@ FocusScope {
     Pattern {
         id: powerContainer
         pattern: "dark"
-        height: microcopy.height
+        height: visible ? microcopy.height : 0
         border.color: "#292929"
         border.width: 1
+        visible: powerMenu.powerOptionsAvailable
 
         anchors {
             bottom: parent.bottom
@@ -138,6 +139,7 @@ FocusScope {
         PowerMenu {
             id: powerMenu
             anchors.fill: parent
+            enabled: powerOptionsAvailable
         }
 
         KeyNavigation.up: view

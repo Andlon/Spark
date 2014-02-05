@@ -105,6 +105,11 @@ void Application::parseConfiguration()
     {
         qFatal("Failed to read configuration file. See the README for how to set up a valid configuration file.");
     }
+
+    qDebug() << "Configuration options: " << endl
+             << "Allow exit: " << m_config.allowExit() << endl
+             << "Allow shutdown: " << m_config.allowShutdown() << endl
+             << "Allow restart: " << m_config.allowRestart();
 }
 
 }

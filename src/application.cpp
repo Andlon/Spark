@@ -14,6 +14,8 @@ Application::Application(QObject *parent)
 {
     connect(m_launchController.data(), &LaunchController::stateChanged, this, &Application::processStateChanged);
     connect(m_launchController.data(), &LaunchController::stateChanged, this, &Application::onStateChanged);
+
+    connect(m_view->engine(), &QQmlEngine::quit, &QCoreApplication::quit);
 }
 
 bool Application::allowExit() const

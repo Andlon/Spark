@@ -41,6 +41,53 @@ FocusScope {
         anchors.centerIn: parent
     }
 
+
+    LauncherMicrocopy {
+        id: microcopy
+        anchors {
+            bottom: powerContainer.top
+            bottomMargin: microcopy.height
+        }
+
+        states: [
+            State {
+                when: view.activeFocus
+                PropertyChanges { target: microcopyTranslator; y: 0 }
+            },
+            State {
+                when: !view.activeFocus
+                PropertyChanges { target: microcopyTranslator; y: -microcopy.height }
+            }
+        ]
+
+        transitions: Transition {
+            SmoothedAnimation { property: "y"; duration: 250; velocity: - 1 }
+        }
+
+        transform: Translate {
+            id: microcopyTranslator
+        }
+
+        x: {
+            var pos = 0
+            if (view.currentIndex == view.count - 1)
+                pos = view.width - view.delegateWidth
+            else if (view.currentIndex != 0)
+                pos = view.delegateWidth
+
+            return view.x + pos
+        }
+
+        width: view.delegateWidth
+
+        Behavior on x {
+            SmoothedAnimation {
+                duration: view.highlightMoveDuration
+                velocity: -1
+            }
+        }
+    }
+
     Pattern {
         id: viewContainer
 
@@ -95,37 +142,10 @@ FocusScope {
         }
     }
 
-    LauncherMicrocopy {
-        id: microcopy
-        anchors {
-            bottom: powerContainer.top
-            bottomMargin: microcopy.height
-        }
-
-        x: {
-            var pos = 0
-            if (view.currentIndex == view.count - 1)
-                pos = view.width - view.delegateWidth
-            else if (view.currentIndex != 0)
-                pos = view.delegateWidth
-
-            return view.x + pos
-        }
-
-        width: view.delegateWidth
-
-        Behavior on x {
-            SmoothedAnimation {
-                duration: view.highlightMoveDuration
-                velocity: -1
-            }
-        }
-    }
-
     Pattern {
         id: powerContainer
         pattern: "dark"
-        height: visible ? microcopy.height : 0
+        height: childrenRect.height
         border.color: "#292929"
         border.width: 1
         visible: powerMenu.powerOptionsAvailable
@@ -138,7 +158,10 @@ FocusScope {
 
         PowerMenu {
             id: powerMenu
-            anchors.fill: parent
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+            }
+
             enabled: powerOptionsAvailable
         }
 

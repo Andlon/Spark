@@ -15,9 +15,24 @@ ListView {
     preferredHighlightBegin: view.width / 3
     preferredHighlightEnd: 2 * view.width / 3
     highlight: Rectangle {
+        id: highlight
         //color: "#e9c329"
         color: "#ffae00"
-        visible: view.activeFocus
+
+        states: [
+            State {
+                when: view.activeFocus
+                PropertyChanges { target: highlight; opacity: 1 }
+            },
+            State {
+                when: !view.activeFocus
+                PropertyChanges { target: highlight; opacity: 0 }
+            }
+        ]
+
+        transitions: Transition {
+            SmoothedAnimation { property: "opacity"; duration: 250; velocity: -1 }
+        }
     }
 
     property int delegateWidth: view.width / 3

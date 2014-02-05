@@ -7,7 +7,7 @@
 		</launcher>
 		<launcher template="sonetta">
 			<usage>Music</usage>
-		</launcher>s
+		</launcher>
 	</launchers>
 	<allowshutdown>true</allowshutdown>
 	<allowexit>true</allowexit>

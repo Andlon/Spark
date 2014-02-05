@@ -4,14 +4,17 @@ import Navigation 0.1
 FocusScope {
     id: root
 
+    height: childrenRect.height
+    width: childrenRect.width
+
     onActiveFocusChanged: if (activeFocus) updateFocus()
 
     property int selectionWidth: Math.max(exit.implicitWidth, shutdown.implicitWidth, restart.implicitWidth)
     property bool powerOptionsAvailable: spark.allowExit || shutdownAvailable() || restartAvailable()
 
     Row {
-        anchors.centerIn: parent
-        height: childrenRect.height
+        height: childrenRect.height + 20
+        y: 10
         spacing: 20
 
         Text {
@@ -22,7 +25,7 @@ FocusScope {
 
             font.family: "Roboto"
             font.weight: Font.Light
-            font.pointSize: 18
+            font.pointSize: 21
             color: activeFocus ? "#ffffff" : "#999999"
             horizontalAlignment: Text.AlignRight
 
@@ -49,7 +52,7 @@ FocusScope {
 
             font.family: "Roboto"
             font.weight: Font.Light
-            font.pointSize: 18
+            font.pointSize: 21
             color: activeFocus ? "#ffffff" : "#999999"
 
             KeyNavigation.left: exit
@@ -76,7 +79,7 @@ FocusScope {
 
             font.family: "Roboto"
             font.weight: Font.Light
-            font.pointSize: 18
+            font.pointSize: 21
             color: activeFocus ? "#ffffff" : "#999999"
             horizontalAlignment: Text.AlignLeft
 

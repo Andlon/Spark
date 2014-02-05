@@ -59,6 +59,7 @@ void Application::setupQuickEnvironment()
 
     m_view->setSource(QUrl::fromLocalFile(applicationDir + "/interfaces/default/main.qml"));
     m_view->setResizeMode(QQuickView::SizeRootObjectToView);
+    m_view->setCursor(QCursor(Qt::BlankCursor));
 }
 
 void Application::showUserInterface()
